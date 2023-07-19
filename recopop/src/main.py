@@ -3,6 +3,7 @@ import json
 from dotenv import load_dotenv
 import os
 from requests import get, post
+import mysql.connector
 
 load_dotenv()
 
@@ -43,3 +44,11 @@ def get_trackID():
     id = json_result["tracks"]["items"][0]["id"]
 
     return id
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="root1234"
+)
+
+print(mydb)
