@@ -45,10 +45,10 @@ def get_trackID():
 
     return id
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="root1234"
-)
+# mydb = mysql.connector.connect(
+#   host="localhost",
+#   user="root",
+#   password="root1234"
+# )
 
-print(mydb)
+# print(mydb)

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+</head>
+<body>
+    <!-- <h1>Account Settings For <b>{{user.username}}</b></h1> -->
+    <h1>Account Settings </h1>
+
+    <a href="/">Home</a>
+    <hr>
+
+    <br>
+
+    <div>
+        <h3>General Settings</h3>
+        
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label for="">Profile Image</label>
+                <img width="150" height="150" src="{{user_profile.profileimg.url}}" />
+                <input type="file" name="image" value=""></textarea>
+            </div>
+
+            <div>
+                <label for="About">Bio</label>
+                <textarea id="bio" name="bio">{{user_profile.bio}}</textarea>
+            </div>
+
+            <div>
+                <label for="Location">Location</label>
+                <input type="text" name="location" value="{{user_profile.location}}"></textarea>
+            </div>
+
+            <div>
+                <button><a href="/">Cancel</a></button>
+                <button type="submit">Save</button>
+            </div>
+            
+        </form>
+    </div>
+
+
+</body>
+</html>

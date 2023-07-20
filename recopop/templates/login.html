@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Login</title>
 </head>
 <body>
-    <h2> Sign Up </h2>
+    <h2> Login </h2>
 
     <div>
         <style>
@@ -23,12 +23,10 @@
         {% csrf_token %}
 
         <input type="text" name="username" placeholder="Username">
-        <input type="email" name="email" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
-        <input type="password" name="password2" placeholder="Confirm Password">
 
-        <button type="submit"> Sign Up </button>
-        <p> Already have an account? <a href="/login">Login</a></p>
+        <button type="submit"> Login </button>
+        <p> Don't have an account? <a href="/signup">Create an account</a></p>
 
     </form>
 </body>
