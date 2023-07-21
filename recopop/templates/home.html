@@ -1,30 +1,66 @@
 {% load static %}
+
 <!-- <!DOCTYPE html> -->
 <html lang="en">
     
 <head>
     <!-- <meta charset="UTF-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <!-- <link rel="stylesheet" href="{% static 'index.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    
+
     <title>RecoPop</title>
 </head>
 
 <body>
+  
+
+  <img width="50" height="50" src="{{user_profile.profileimg.url}}" />
 
   <a href="logout"> Logout </a>
+  <br>
+  <a href="settings"> Settings </a>
 
     <div class="App">
 
+      <form action="upload/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
         <div class="container">
-          
-          <input
-          class='recommend'
-          type="text"
-          placeholder='Recommend a track'
-          />
-          <button class='post' onclick="">Post</button>
+
+          <input class='recommend' type="text" placeholder='Recommend a track' name="track_name" />
+          <textarea class='caption' placeholder='caption...' name="caption"></textarea>
+          <br>
+
+          <button class='post' type="submit">Post</button>
+
         </div>
+
+      </form>
+
+      <br>
+
+      {% for post in posts %}
+        <div>
+          <!-- <span>{{post.user}}</span> -->
+        </div>
+
+        <div>
+          <iframe 
+          style="border-radius:12px" src="https://open.spotify.com/embed/track/{{post.track_id}}" 
+          width="100%" height="152" frameBorder="0" allowfullscreen="" 
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+          </iframe>
+        </div>
+
+        <div>
+
+        </div>
+
+      {% endfor %}
   
-      </div>
+    </div>
+
+    <script src="{% static 'home.js' %}"></script>
 </body>
 </html>

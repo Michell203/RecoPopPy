@@ -92,3 +92,68 @@ body {
 .post {
   height: 40px; /* Adjust the height to match the search bar */
 }
+
+.container {
+  text-align: center;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  padding: 20px;
+  background: #fff;
+  z-index: 9999;
+}
+
+.popup-toggle {
+  display: none;
+}
+
+/* This label styles the "Recommend a Track" button */
+.recommend {
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.popup-toggle:checked + .popup {
+  display: block;
+}
+
+/* .container {
+  text-align: center;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  padding: 20px;
+  background: #fff;
+  z-index: 9999;
+}
+
+.popup-content {
+  max-width: 300px;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+} */

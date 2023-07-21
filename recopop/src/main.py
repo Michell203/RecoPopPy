@@ -33,10 +33,9 @@ def get_token():
 def get_auth_header(token):
     return { "Authorization": "Bearer " + token}
 
-
-def get_trackID():
+def get_trackID(trackName):
     token = get_token()
-    url = "https://api.spotify.com/v1/search?q=money+trees&type=track&limit=1"
+    url = "https://api.spotify.com/v1/search?q="+ trackName +"&type=track&limit=1"
     header = get_auth_header(token=token)
     result = get(url, headers=header)
     print("here")

@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from src.models import Profile, Collection
+from src.models import Profile, Collection, Post
 from django.contrib.auth.decorators import login_required
+from .main import get_trackID
 
 # Create your views here.
 
@@ -12,7 +13,13 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def home(response):
-    return render(response, "home.html")
+    # user_object = User.objects.get(username = response.username)
+    # user_profile = Profile.objects.get(user=user_object)
+    user_profile = Profile.objects.get(user=response.user)
+
+    posts = Post.objects.all()
+
+    return render(response, "home.html", {'user_profile':user_profile, 'posts':posts})
 
 def signup(response):
 
@@ -105,3 +112,19 @@ def settings(response):
 
 
     return render(response, "settings.html", {'user_profile': user_profile}) 
+
+@login_required(login_url='login')
+def upload(response):
+
+    if response.method == 'POST':
+        user = response.user.username
+        track = response.POST['track_name']
+        track_id = get_trackID(trackName=track)
+        caption = response.POST['caption']
+
+        new_post = Post.objects.create(user=user, track_name=track, track_id=track_id, caption=caption)
+        new_post.save()
+        return redirect('/')
+    else:
+        return redirect('/')
+    
