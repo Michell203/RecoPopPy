@@ -43,11 +43,3 @@ def get_trackID(trackName):
     id = json_result["tracks"]["items"][0]["id"]
 
     return id
-
-# mydb = mysql.connector.connect(
-#   host="localhost",
-#   user="root",
-#   password="root1234"
-# )
-
-# print(mydb)

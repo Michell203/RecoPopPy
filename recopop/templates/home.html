@@ -7,14 +7,10 @@
     <!-- <meta charset="UTF-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link rel="stylesheet" href="{% static 'index.css' %}">
-    
-
     <title>RecoPop</title>
 </head>
 
 <body>
-  
-
   <img width="50" height="50" src="{{user_profile.profileimg.url}}" />
 
   <a href="logout"> Logout </a>
@@ -40,9 +36,10 @@
 
       <br>
 
-      {% for post in posts %}
+      {% for post in posts reversed %}
         <div>
-          <!-- <span>{{post.user}}</span> -->
+          <span><img width="50" height="50" style="border-radius: 50%" src="{{post.user_profile.profileimg.url}}" /></span>
+          <span><a href="">{{post.user}}</a></span>
         </div>
 
         <div>
@@ -54,7 +51,13 @@
         </div>
 
         <div>
+         <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" src="{% static 'flame.png' %}" /></a>
+        </div>
 
+        <div>
+          <p>
+            <a href=""><strong>{{post.user}}</strong></a> {{post.caption}}
+          </p>
         </div>
 
       {% endfor %}

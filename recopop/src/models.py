@@ -36,12 +36,19 @@ class Post(models.Model):
     user = models.CharField(max_length=100)
     track_name = models.CharField(max_length=100)
     track_id = models.CharField(max_length=100)
-    caption = models.TextField(blank=True, null=True)
+    caption = models.TextField(blank=True, null=True, editable=True)
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
-
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.user
+    
+class LikePost(models.Model):
+    post_id = models.CharField(max_length=500)
+    username = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.username    
     
 

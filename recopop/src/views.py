@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from src.models import Profile, Collection, Post
+from src.models import Profile, Collection, Post, LikePost
 from django.contrib.auth.decorators import login_required
 from .main import get_trackID
 
@@ -121,10 +121,25 @@ def upload(response):
         track = response.POST['track_name']
         track_id = get_trackID(trackName=track)
         caption = response.POST['caption']
+        user_profile = Profile.objects.get(user=response.user)
 
-        new_post = Post.objects.create(user=user, track_name=track, track_id=track_id, caption=caption)
+
+        new_post = Post.objects.create(user=user, track_name=track, track_id=track_id, caption=caption, user_profile=user_profile)
         new_post.save()
         return redirect('/')
     else:
         return redirect('/')
+
+@login_required(login_url='login')
+def like_post(response):
+    username = response.user.username
+    post_id = response.GET.get('post_id')
+
+    post = Post.objects.get(id=post_id)
+
+    like_filter = LikePost.objects.filter(post_id=post_id)
+
+    
+
+
     
