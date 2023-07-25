@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Profile - {{user_profile.user.username}}</h1>
+
+    <a href="/">Home</a>
+    <hr>
+
+    <div>
+        <img width="200" height="200" src="{{user_profile.profileimg.url}}" />
+    </div>
+
+    <div>
+        <p>{{user_profile.bio}}</p>
+    </div>
+
+    <form action="/follow" method="POST">
+        {% csrf_token %}
+        <div>
+            <input type="hidden" value="{{user.username}}" name="follower" />
+            <input type="hidden" value="{{user_object.username}}" name="user" />
+
+            {% if user_object.username == user.username %}
+            <button><a href="/settings">Account Settings</a></button>
+            {% else %}
+            <button type="submit">Follow</button>
+            {% endif %}
+            
+        </div>
+    </form>
+
+    <div>
+        <p></p>
+    </div>
+
+    <div>
+        {% if user_post_length == 1 %}
+        <p>{{user_post_length}} Post</p>
+        {% else %}
+        <p>{{user_post_length}} Posts</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <ul>
+            {% for post in user_posts reversed %}
+
+            <div>
+                <span><img width="50" height="50" style="border-radius: 50%" src="{{post.user_profile.profileimg.url}}" /></span>
+                <span><a href="">{{post.user}}</a></span>
+              </div>
+      
+              <div>
+                <iframe 
+                style="border-radius:12px" src="https://open.spotify.com/embed/track/{{post.track_id}}" 
+                width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+                </iframe>
+              </div>
+      
+              <div>
+                <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" style="" src="{% static 'flame.png' %}" /></a>
+                {% if post.no_of_likes == 0 %}
+                  <p></p>
+                {% elif post.no_of_likes == 1 %}
+                  <p>{{post.no_of_likes}} person thinks this is fire</p>
+                {% else %}
+                  <p>{{post.no_of_likes}} people thinks this is fire</p>
+                {% endif %}
+              </div>
+      
+              <div>
+                <p>
+                  <a href=""><strong>{{post.user}}</strong></a> {{post.caption}}
+                </p>
+              </div>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

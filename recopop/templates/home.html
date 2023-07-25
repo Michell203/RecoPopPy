@@ -1,11 +1,10 @@
 {% load static %}
-
-<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
 <html lang="en">
     
 <head>
-    <!-- <meta charset="UTF-8"> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'index.css' %}">
     <title>RecoPop</title>
 </head>
@@ -16,7 +15,9 @@
   <a href="logout"> Logout </a>
   <br>
   <a href="settings"> Settings </a>
-
+  <br>
+  <a href="profile/{{user.username}}"> Profile </a>
+  
     <div class="App">
 
       <form action="upload/" method="POST" enctype="multipart/form-data">
@@ -51,7 +52,14 @@
         </div>
 
         <div>
-         <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" src="{% static 'flame.png' %}" /></a>
+          <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" style="" src="{% static 'flame.png' %}" /></a>
+          {% if post.no_of_likes == 0 %}
+            <p></p>
+          {% elif post.no_of_likes == 1 %}
+            <p>{{post.no_of_likes}} person thinks this is fire</p>
+          {% else %}
+            <p>{{post.no_of_likes}} people think this is fire</p>
+          {% endif %}
         </div>
 
         <div>
