@@ -17,7 +17,15 @@
   <a href="settings"> Settings </a>
   <br>
   <a href="profile/{{user.username}}"> Profile </a>
-  
+
+  <form action="/search" method="POST">
+    {% csrf_token %}
+    <div>
+      <input type="text" name="username" placeholder="Search for username..." />
+      <button type="submit">Search</button>
+    </div>
+  </form>
+    
     <div class="App">
 
       <form action="upload/" method="POST" enctype="multipart/form-data">
@@ -40,7 +48,7 @@
       {% for post in posts reversed %}
         <div>
           <span><img width="50" height="50" style="border-radius: 50%" src="{{post.user_profile.profileimg.url}}" /></span>
-          <span><a href="">{{post.user}}</a></span>
+          <span><a href="profile/{{post.user}}">{{post.user}}</a></span>
         </div>
 
         <div>
@@ -52,7 +60,7 @@
         </div>
 
         <div>
-          <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" style="" src="{% static 'flame.png' %}" /></a>
+          <a href="/like-post?post_id={{post.id}}"><img width="40" height="40" src="{% static 'flame.png' %}" /></a>
           {% if post.no_of_likes == 0 %}
             <p></p>
           {% elif post.no_of_likes == 1 %}
@@ -64,7 +72,7 @@
 
         <div>
           <p>
-            <a href=""><strong>{{post.user}}</strong></a> {{post.caption}}
+            <a href="profile/{{post.user}}"><strong>{{post.user}}</strong></a> {{post.caption}}
           </p>
         </div>
 

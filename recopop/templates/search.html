@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <h4>Results for</h4>
+
+    {% for users in username_profile_list %}
+        <div>
+            <a href="profile/{{users.user}}"><p>{{users.user}}</p></a>
+            <a href="profile/{{users.user}}"><img width="100" height="100" src="{{users.profileimg.url}}" /></a>
+            <p>{{users.location}}</p></a>
+            <p>{{users.bio}}</p></a>
+        </div>
+    {% endfor %}
+</body>
+</html>

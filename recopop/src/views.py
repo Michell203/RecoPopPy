@@ -5,6 +5,7 @@ from django.contrib import messages
 from src.models import Profile, Collection, Post, LikePost, FollowersCount
 from django.contrib.auth.decorators import login_required
 from .main import get_trackID
+from itertools import chain
 
 # Create your views here.
 
@@ -16,10 +17,23 @@ def home(response):
     # user_object = User.objects.get(username = response.username)
     # user_profile = Profile.objects.get(user=user_object)
     user_profile = Profile.objects.get(user=response.user)
-
     posts = Post.objects.all()
 
-    return render(response, "home.html", {'user_profile':user_profile, 'posts':posts})
+    user_following_list = []
+    feed = []
+
+    user_following = FollowersCount.objects.filter(follower=response.user.username)
+
+    for users in user_following:
+        user_following_list.append(users.user)
+
+    for usernames in user_following_list:
+        feed_lists = Post.objects.filter(user=usernames)    
+        feed.append(feed_lists)
+
+    feed_list = list(chain(*feed))
+
+    return render(response, "home.html", {'user_profile': user_profile, 'posts': feed_list})
 
 def signup(response):
 
@@ -159,11 +173,25 @@ def profile(response, pk):
     user_posts = Post.objects.filter(user=pk)
     user_post_length = len(user_posts)
 
+    follower = response.user.username
+    user = pk
+
+    if FollowersCount.objects.filter(follower=follower, user=user).first():
+        button_text = 'Unfollow'
+    else:
+        button_text = 'Follow'
+
+    user_followers = len(FollowersCount.objects.filter(user=pk))
+    user_following = len(FollowersCount.objects.filter(follower=pk))
+
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
         'user_posts': user_posts,
         'user_post_length': user_post_length,
+        'button_text': button_text,
+        'user_followers': user_followers,
+        'user_following': user_following,
     }
 
     return render(response, 'profile.html', context)
@@ -191,3 +219,25 @@ def follow(response):
         print("here1")
         return redirect('/')    
 
+@login_required(login_url='login')
+def search(response):
+    user_object = User.objects.get(username=response.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+
+    if response.method == 'POST':
+        username = response.POST['username']
+        username_object = User.objects.filter(username__icontains=username)
+
+        username_profile = []
+        username_profile_list = []
+
+        for users in username_object:
+            username_profile.append(users.id)
+
+        for ids in username_profile:
+            profile_list = Profile.objects.filter(id_user=ids)
+            username_profile_list.append(profile_list)
+
+        username_profile_list = list(chain(*username_profile_list)) 
+
+    return render(response, 'search.html', {'user_object': user_object, 'user_profile': user_profile, 'username_profile_list': username_profile_list})
